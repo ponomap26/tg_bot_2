@@ -1,8 +1,11 @@
 import asyncio
+import logging
 import os
+from asyncio.log import logger
+
 from aiogram import Bot, Dispatcher
 from dotenv import find_dotenv, load_dotenv
-import logging
+
 from heandler.user_private import user_private_router
 
 load_dotenv(find_dotenv())
@@ -20,21 +23,22 @@ logging.info("Информационное сообщение")
 
 
 
-def log():
-    log= logging.basicConfig(level=logging.DEBUG, filename="py_log.log",filemode="w")
+def setup_logger():
 
-    return log
+    logging.basicConfig(level=logging.DEBUG, filename="logs.log", filemode="a")
 async def main() -> None:
+
+
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot, allowed_updates=ALLOWED_UPDATE)
 
 if __name__ == '__main__':
-    log()
+
     try:
         print("Бот запущен")
-
-        asyncio.run(main())# запуск функции в отдельном потоке
+        setup_logger()
+        asyncio.run(main())
         logging.info("Запуск программы")
     except KeyboardInterrupt:
         print("Бот остановлен")

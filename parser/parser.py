@@ -1,8 +1,8 @@
-import codecs
-import selenium
+import logging
+
 from bs4 import BeautifulSoup
 import requests
-import json
+
 import lxml
 
 url = "https://www.eveonline.com/ru/news/"
@@ -17,7 +17,10 @@ src = response.text
 
 #
 soup = BeautifulSoup(src, "lxml")
+
+
 def get_news():
+    logging.info("Got news from https://www.eveonline.com/ru/news/)")
     add_news = []
     article_one = soup.find(class_="lazyload-wrapper").find_parent("a")
     article_two = soup.find(class_="CardFeatured_card__Hr9Mq").find('h2')
@@ -33,31 +36,6 @@ def get_news():
         text = article.find('div', class_="Card_content__2B4VA").find("h3").text
         href = article.find('div', class_="Card_content__2B4VA").find("h3").find("a").get("href")
         add_news.append(f'{text}\n {description} \n https://www.eveonline.com{href}\n')
-    articles = soup.find(class_="NewsPage_grid__2X8g7 NewsPage_grid2__2QfQT").find_all("article")
-    
+    # articles = soup.find(class_="NewsPage_grid__2X8g7 NewsPage_grid2__2QfQT").find_all("article")
 
     return add_news
-
-# def get_news():
-#     add_news = []
-#
-#     # Используем класс 'NewsPage_grid__2X8g7' без регулярного выражения
-#     add_article = soup.find('div', class_='NewsPage_grid__2X8g7 NewsPage_grid2_1__Dj-2s')
-#
-#
-#     href = add_article.get('href')
-#     text = add_article.text.strip()
-#     add_news.append(f'{text}-https://www.eveonline.com/ru{href}')
-
-
-    # return add_news
-    #
-    # add_article_all = soup.find_all('NewsPage_grid__2X8g7')
-    #
-    # for a in add_article_all:
-    #     href_all = a.get('href')
-    #     text = a.text.strip()
-    #     print(f" Все новости {text_all}-https://www.eveonline.com/ru{href_all}")
-    #     add_news.append(f' {text} -https://www.eveonline.com/ru{href_all}')
-    # print(add_news)
-    # return add_news
