@@ -1,7 +1,7 @@
 import asyncio
 import logging
 import os
-from asyncio.log import logger
+
 
 from aiogram import Bot, Dispatcher
 from dotenv import find_dotenv, load_dotenv
@@ -10,8 +10,8 @@ from heandler.user_private import user_private_router
 
 load_dotenv(find_dotenv())
 
-TOKEN = os.getenv('TOKEN')
-ALLOWED_UPDATE = ['message', 'edited_message']
+TOKEN = os.getenv("TOKEN")
+ALLOWED_UPDATE = ["message", "edited_message"]
 bot = Bot(token=TOKEN)
 
 dp = Dispatcher()
@@ -22,24 +22,26 @@ logging.debug("Это сообщение для отладки программ�
 logging.info("Информационное сообщение")
 
 
-
 def setup_logger():
 
-    logging.basicConfig(level=logging.DEBUG, filename="logs.log", filemode="a")
+    logging.basicConfig(level=logging.DEBUG)
+
+
 async def main() -> None:
-
-
-
+    setup_logger()
     await bot.delete_webhook(drop_pending_updates=True)
-    await dp.start_polling(bot, allowed_updates=ALLOWED_UPDATE)
+    await dp.start_polling(
+        bot,
+        allowed_updates=ALLOWED_UPDATE,
+    )
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
 
     try:
         print("Бот запущен")
-        setup_logger()
+
         asyncio.run(main())
-        logging.info("Запуск программы")
+
     except KeyboardInterrupt:
         print("Бот остановлен")
-        logging.info("Остановка программы")
