@@ -34,10 +34,8 @@ async def main() -> None:
 
 if __name__ == "__main__":
 
-    try:
-        print("Бот запущен")
+
 
         asyncio.run(main())
 
-    except KeyboardInterrupt:
-        print("Бот остановлен")
+
