@@ -1,12 +1,11 @@
 from aiogram import Router, types, F
-from aiogram.filters import CommandStart, Command, or_f
-import asyncio
+from aiogram.filters import CommandStart, Command
 
-from kbds.reply import types_kb, start_kb3
-from request.requestApi_Plex import get_price
-from request.requestApi_Skill import get_price_skill
-from request.requestApiLargSkill import get_price_Larg_skill
-from parser.parser import get_news
+from core.kbds.reply import types_kb, start_kb3
+from core.request.requestApi_Plex import get_price
+from core.request.requestApi_Skill import get_price_skill
+from core.request.requestApiLargSkill import get_price_Larg_skill
+from core.parser.parser import get_news
 
 user_private_router = Router()
 
