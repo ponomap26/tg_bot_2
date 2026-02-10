@@ -5,6 +5,8 @@ from aiogram.filters import CommandStart, Command
 
 from core.kbds.reply import types_kb, start_kb3
 from core.parser.parsNews import parser
+from core.request.requestAPI_Plex_new import get_all_regions_plex_prices
+
 from core.request.requestApi_Plex import get_price
 from core.request.requestApi_Skill import get_price_skill
 from core.request.requestApiLargSkill import get_price_Larg_skill
@@ -70,25 +72,24 @@ async def tags_add(message: types.Message):
 
 
 @user_private_router.message(F.text.lower() == "plex")
-async def plex_age(message: types.Message):
+async def plex_handler_simple(message: types.Message):
+    """
+    Простейший обработчик - используйте только для быстрых запросов
+    """
+    await message.answer("⏳ Получаю цены PLEX...")
 
-    # Отображаем сообщение "Загружаю..."
-    await message.answer("Загружаю данные...")
+    # Получаем синхронно (блокирующий вызов!)
+    orders = get_all_regions_plex_prices()
 
-    # Получаем данные о PLEX
-    prise = await get_price()  # Предполагается, что get_price() возвращает словарь
-
-    # Проверяем, что данные были получены
-    try:
-        result = "\n".join(f"{k}={v}" for k, v in prise.items())
-        await message.answer(f"Полученные данные по PLEX:\n {result}")
-    except Exception:
-        # Если данные не были получены, выводим соответствующее сообщение
-        await message.answer("К сожалению, данные о PLEX недоступны в данный момент.")
+    if orders:
+        text = "📊 Цены PLEX:\n"
+        for order in orders[:5]:
+            text += f"• {order.get('volume_remain', 0):,} шт. - {order.get('price', 0):,.0f} ISK\n"
+        await message.answer(text)
+    else:
+        await message.answer("❌ Не удалось получить данные")
 
 
-# # Удаляем сообщение "Загружаю..."
-#         await message.delete()
 @user_private_router.message(F.text.lower() == "skill extractor")
 async def skill_age(message: types.Message):
     await message.answer("Загружаю данные...")
