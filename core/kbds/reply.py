@@ -1,6 +1,5 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 
-
 start_kb = ReplyKeyboardMarkup(
     keyboard=[
         [
@@ -11,8 +10,6 @@ start_kb = ReplyKeyboardMarkup(
     resize_keyboard=True,
     input_field_placeholder="Что вас интересует",
 )
-
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 
 
 # Создание клавиатуры для старта
